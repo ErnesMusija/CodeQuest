@@ -1,0 +1,21 @@
+body {
+  background-color: lightblue;
+}
+
+/* CSS for the button */
+.admin-button {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 15px 32px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none !important; /* Remove underline */
+    display: inline-block; /* Display as inline-block */
+    font-size: 16px; /* Font size */
+    margin-top: 20px; /* Margin at the top */
+
+}
+
+
+/* CSS for the body element */
+
