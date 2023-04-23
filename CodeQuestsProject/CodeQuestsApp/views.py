@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from .models import *
 
 # Create your views here.
 
@@ -83,11 +84,22 @@ def delete_acc(request):
 
 
 def view_courses(request):
-    pass
+    courses = Course.objects.all()
+
+    context = {
+        'courses': courses
+    }
+
+    return render(request, 'view_courses.html', context)
 
 
 def start_course(request, course_id):
-    pass
+    tasks = Task.objects.filter(course_id=course_id)
+    # taskovi nisu vezani u bazi za kurseve zasad pa vidicemo
+    context = {
+        'tasks': tasks
+    }
+    return render(request, 'start_course.html', context)
 
 
 def search_tasks(request):
@@ -99,7 +111,17 @@ def choose_task(request):
 
 
 def solve_task(request, task_id):
-    pass
+    task = Task.objects.get(id=task_id)
+    if request.method == "POST":
+        code = request.POST['code']
+        # mozda prvo provjerit jel tacan jer mozda previse za bazy svaki odg cuvat
+        solution = Solution.objects.create(user=request.user, task=task, user_code=code)
+        solution.save()
+
+    context = {
+        'task': task
+    }
+    return render(request, 'solve_task.html', context)
 
 
 def join_queue(request):

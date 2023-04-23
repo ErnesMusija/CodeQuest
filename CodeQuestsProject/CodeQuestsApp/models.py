@@ -62,7 +62,7 @@ class Task(models.Model):
     realy_hard = 'R'
 
     difficulty = [
-        (very_easy, 'Very Hard'),
+        (very_easy, 'Very Easy'),
         (easy, 'Easy'),
         (medium, 'Medium'),
         (hard, 'Hard'),
@@ -92,7 +92,7 @@ class Solution(models.Model):
     execution_time = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return self.user.username + '-' + self.task.name + '-' + self.id
+        return self.user.username + '-' + self.task.name + '-' + str(self.id)
 
 
 class Achievement(models.Model):
