@@ -8,7 +8,10 @@ from .models import *
 
 
 def index(request):
-    return render(request, 'index.html')
+    context = {
+        'user': request.user
+    }
+    return render(request, 'index.html', context)
 
 
 def registration(request):
@@ -58,7 +61,7 @@ def login(request):
 
         else:
             messages.info(request, "Wrong credentials")
-            return redirect('login')
+            return render(request, 'index.html')
 
     else:
         return render(request, 'login.html')
@@ -115,6 +118,8 @@ def solve_task(request, task_id):
     if request.method == "POST":
         code = request.POST['code']
         # mozda prvo provjerit jel tacan jer mozda previse za bazy svaki odg cuvat
+        # mozda ako je competitve cuvat svaki odg ako nije onda samo tacan
+        # na frontendu osigurat ako je netacan da se vrati kod i dodat loading kruzic dok se egzekujta
         solution = Solution.objects.create(user=request.user, task=task, user_code=code)
         solution.save()
 
