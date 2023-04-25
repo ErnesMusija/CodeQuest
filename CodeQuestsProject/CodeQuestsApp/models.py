@@ -110,7 +110,26 @@ class Match(models.Model):
     second_user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     has_winner = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.first_user.username + ' vs ' + self.second_user.username + ' ' + str(self.id)
 
-# skontat kako za tabelu
+
+class Table(models.Model):
+    name = models.CharField(max_length=25)
+    level = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.name
+
+
+class Ranking(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    rank = models.IntegerField()
+    points = models.IntegerField()
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)
+
+
+
+
 
 
