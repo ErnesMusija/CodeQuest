@@ -106,7 +106,19 @@ def start_course(request, course_id):
 
 
 def search_tasks(request):
-    pass
+    query = request.GET.get('q')
+
+    if query:
+        tasks = Task.objects.filter(name__icontains=query) | Task.objects.filter(text__icontains=query)
+    else:
+        tasks = Task.objects.all()
+
+    context = {
+        'tasks': tasks,
+        'query': query
+    }
+
+    return render(request, 'search_tasks.html', context)
 
 
 def choose_task(request):
