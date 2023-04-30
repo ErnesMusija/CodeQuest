@@ -23,7 +23,7 @@ def registration(request):
         confirm_password = request.POST['confirm_password']
         name = request.POST['name']
         surname = request.POST['surname']
-        date_of_birth = request.post['date_Of_birth']
+        date_of_birth = request.POST['date_of_birth']
 
         if password == confirm_password:
             if User.objects.filter(email=email).exists():
@@ -36,9 +36,10 @@ def registration(request):
 
             else:
                 user = User.objects.create_user(username=username, email=email, password=password, name=name,
-                                                surname=surname)
+                                                surname=surname, date_of_birth=date_of_birth)
+                user.is_active = True
                 user.save()
-                return redirect('login')
+                return redirect('index')
 
         else:
             messages.info(request, "Password not the same")
@@ -123,6 +124,7 @@ def search_tasks(request):
 
 def choose_task(request):
     pass
+    # mozda ne treba cini mi se vidicemo
 
 
 def solve_task(request, task_id):
@@ -142,7 +144,12 @@ def solve_task(request, task_id):
 
 
 def join_queue(request):
-    pass
+    # bira vrstu zadatka i prog jezik
+    # ceka protivnika
+    context = {
+
+    }
+    return render(request, 'join_queue.html', context)
 
 
 def view_profile(request):

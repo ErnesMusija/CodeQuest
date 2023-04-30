@@ -15,7 +15,7 @@
     </div>
     <ul id="tasks">
       {% for task in tasks %}
-        <li>{{ task.name }} - {{ task.text }}</li>
+        <li><a href="/solve_task/{{task.id}}">{{ task.name }} - {{ task.text }}</a></li>
       {% empty %}
         <li>No tasks found.</li>
       {% endfor %}
