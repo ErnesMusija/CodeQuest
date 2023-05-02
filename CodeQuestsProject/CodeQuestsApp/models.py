@@ -49,11 +49,21 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 
+class Course(models.Model):
+    name = models.CharField(max_length=127)
+    programming_language = models.CharField(max_length=50)
+    added_by = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
 class Task(models.Model):
     name = models.CharField(max_length=80)
     text = models.CharField(max_length=500)
     ai_generated = models.BooleanField(default=False)
     correct_output = models.CharField(max_length=100)
+    course = models.ForeignKey(Course, blank=True, null=True, on_delete=models.CASCADE)
 
     very_easy = 'V'
     easy = 'E'
@@ -70,16 +80,6 @@ class Task(models.Model):
     ]
 
     difficulty_level = models.CharField(max_length=1, choices=difficulty, default=medium)
-
-    def __str__(self):
-        return self.name
-
-
-class Course(models.Model):
-    name = models.CharField(max_length=127)
-    programming_language = models.CharField(max_length=50)
-    added_by = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    # mozda dodat metodu da automatski doda zadatak, @classmethod je na samu klasu a ne na instancu
 
     def __str__(self):
         return self.name

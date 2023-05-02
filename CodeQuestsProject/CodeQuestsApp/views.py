@@ -146,6 +146,7 @@ def solve_task(request, task_id):
 def join_queue(request):
     # bira vrstu zadatka i prog jezik
     # ceka protivnika
+    
     context = {
 
     }
