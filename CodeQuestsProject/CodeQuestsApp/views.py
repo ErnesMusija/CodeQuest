@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import get_user_model
@@ -97,13 +99,31 @@ def view_courses(request):
     return render(request, 'view_courses.html', context)
 
 
-def start_course(request, course_id):
+def attend_course(request, course_id):
     tasks = Task.objects.filter(course_id=course_id)
-    # taskovi nisu vezani u bazi za kurseve zasad pa vidicemo
+    solutions = Solution.objects.filter(user=request.user, task__in=tasks)
+
+    solution_tasks = [solution.task for solution in solutions]
+    new_tasks = set(tasks) - set(solution_tasks)
+
+    completed_tasks = []
+    unfinished_tasks = list(new_tasks)
+    for solution in solutions:
+        if solution.passed:
+            completed_tasks.append(solution.task)
+        else:
+            unfinished_tasks.append(solution.task)
+
+    unfinished_tasks = list(OrderedDict.fromkeys(unfinished_tasks))
+    completed_tasks = list(OrderedDict.fromkeys(completed_tasks))
+
     context = {
-        'tasks': tasks
+        'tasks': tasks,
+        'solutions': solutions,
+        'completed_tasks': completed_tasks,
+        'unfinished_tasks': unfinished_tasks,
     }
-    return render(request, 'start_course.html', context)
+    return render(request, 'attend_course.html', context)
 
 
 def search_tasks(request):

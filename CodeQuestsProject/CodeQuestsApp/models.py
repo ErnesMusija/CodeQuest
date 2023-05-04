@@ -58,6 +58,11 @@ class Course(models.Model):
         return self.name
 
 
+class UserCourse(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+
 class Task(models.Model):
     name = models.CharField(max_length=80)
     text = models.CharField(max_length=500)
@@ -90,6 +95,7 @@ class Solution(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     user_code = models.CharField(max_length=1000)
     execution_time = models.IntegerField(blank=True, null=True)
+    passed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username + '-' + self.task.name + '-' + str(self.id)
