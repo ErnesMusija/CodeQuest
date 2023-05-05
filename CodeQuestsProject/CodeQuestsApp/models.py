@@ -113,11 +113,14 @@ class Achievement(models.Model):
 
 class Match(models.Model):
     first_user = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='matches_as_first_user')
-    second_user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    second_user = models.ForeignKey(MyUser, on_delete=models.CASCADE, blank=True, null=True)
     has_winner = models.BooleanField(default=False)
+    queued = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.first_user.username + ' vs ' + self.second_user.username + ' ' + str(self.id)
+        # ustimaj ovo jer ako ima prazno polje za second usera onda ovo dole ne moze ucitat username
+        # return self.first_user.username + ' vs ' + self.second_user.username + ' ' + str(self.id)
+        return str(self.id)
 
 
 class Table(models.Model):

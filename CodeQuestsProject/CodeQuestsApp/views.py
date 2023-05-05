@@ -114,6 +114,7 @@ def attend_course(request, course_id):
         else:
             unfinished_tasks.append(solution.task)
 
+    # uklanja duplikate
     unfinished_tasks = list(OrderedDict.fromkeys(unfinished_tasks))
     completed_tasks = list(OrderedDict.fromkeys(completed_tasks))
 
@@ -166,7 +167,22 @@ def solve_task(request, task_id):
 def join_queue(request):
     # bira vrstu zadatka i prog jezik
     # ceka protivnika
-    
+
+    queued_matches = Match.objects.filter(queued=True).exclude(first_user=request.user)
+    matched = False
+    for match in queued_matches:
+        # ovdje idu svi uslovi za validan mec, pa tek onda ovo sto sam sad stavio
+        match.second_user = request.user
+        match.queued = False
+        match.save()
+        matched = True
+        # sad vjv trazimo od apija zadatak i saljemo usere u solve_task
+
+    # ovdje ako ne nadjemo nista da valja
+    if not matched:
+        match = Match.objects.create(first_user=request.user)
+        match.save()
+
     context = {
 
     }
