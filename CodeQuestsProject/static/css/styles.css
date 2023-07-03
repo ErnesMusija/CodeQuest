@@ -1,21 +1,95 @@
-body {
-  background-color: lightblue;
-}
-
-/* CSS for the button */
+/* Styles for the admin button */
 .admin-button {
-    background-color: #4CAF50; /* Green background */
-    border: none; /* Remove borders */
-    color: white; /* White text */
-    padding: 15px 32px; /* Padding */
-    text-align: center; /* Center text */
-    text-decoration: none !important; /* Remove underline */
-    display: inline-block; /* Display as inline-block */
-    font-size: 16px; /* Font size */
-    margin-top: 20px; /* Margin at the top */
-
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  margin: 5px;
+  border-radius: 5px;
 }
 
+.admin-button:hover {
+  background-color: #45a049;
+}
 
-/* CSS for the body element */
+/* Styles for the login and registration modals */
+.modal-header {
+  background-color: #f1f1f1;
+  color: #000;
+  border-bottom: none;
+}
 
+.modal-title {
+  font-weight: bold;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+/* Style for the welcome message */
+h1 {
+  background-image: linear-gradient(to right, #007bff, #00bfff); 
+  -webkit-background-clip: text; 
+  background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  font-family: 'Rakkas', cursive;
+  display: inline-block;
+  flex-grow: 1;
+  font-size: 48px;
+  text-shadow: 2px 2px 4px #3568f5;
+}
+
+/* Center the modals */
+.modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Style for the registration form labels */
+label {
+  font-weight: bold;
+}
+
+/* Styles for the registration form fields */
+.form-control {
+  margin-bottom: 10px;
+}
+
+/* Styles for the registration form submit button */
+.btn-primary {
+  background-color: #4CAF50;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #45a049;
+}
+
+/* Style for the logout button */
+.admin-button.logout {
+  background-color: #f44336;
+}
+
+.admin-button.logout:hover {
+  background-color: #d32f2f;
+}
+.menu-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.menu ul {
+  display: flex;
+  list-style-type: none;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to right, rgba(0, 191, 255, 0.7),rgba(0, 123, 255, 0.2));
+  padding: 10px;
+}
