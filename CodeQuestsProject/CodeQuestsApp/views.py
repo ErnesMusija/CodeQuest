@@ -1,3 +1,4 @@
+import subprocess
 from collections import OrderedDict
 
 from django.shortcuts import render, redirect
@@ -152,6 +153,16 @@ def solve_task(request, task_id):
     task = Task.objects.get(id=task_id)
     if request.method == "POST":
         code = request.POST['code']
+        command = ['python', '-c', code]
+        output = ''
+
+        try:
+            # Execute the command and capture the output
+            output = subprocess.check_output(command, stderr=subprocess.STDOUT, timeout=5, universal_newlines=True)
+        except subprocess.CalledProcessError as e:
+            # The user's code raised an exception
+            output = str(e.output)
+        print(output)
         # mozda prvo provjerit jel tacan jer mozda previse za bazy svaki odg cuvat
         # mozda ako je competitve cuvat svaki odg ako nije onda samo tacan
         # na frontendu osigurat ako je netacan da se vrati kod i dodat loading kruzic dok se egzekujta
