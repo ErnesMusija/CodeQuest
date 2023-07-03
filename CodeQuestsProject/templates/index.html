@@ -13,7 +13,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
 </head>
+
+
+
 <body>
+  <div class="header">
+    <h1 style="font-weight: bold;">Code Quests</h1>
+    <nav class="menu">
 <a href="/admin/">
 <div class="admin-button">
 ADMIN
@@ -49,6 +55,9 @@ View Courses
 Start Match
 </div>
 </a>
+</nav>
+</div>
+
 {% if user.is_authenticated %}
 <h1>Welcome {{user.username}}</h1>
 {% endif %}
