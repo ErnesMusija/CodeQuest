@@ -150,27 +150,37 @@ def choose_task(request):
 
 
 def solve_task(request, task_id):
+    message = ''
+    correct = False
     task = Task.objects.get(id=task_id)
+    course = None
+    if hasattr(task, 'course'):
+        course = task.course
+
     if request.method == "POST":
         code = request.POST['code']
         command = ['python', '-c', code]
         output = ''
 
         try:
-            # Execute the command and capture the output
             output = subprocess.check_output(command, stderr=subprocess.STDOUT, timeout=5, universal_newlines=True)
         except subprocess.CalledProcessError as e:
-            # The user's code raised an exception
             output = str(e.output)
-        print(output)
-        # mozda prvo provjerit jel tacan jer mozda previse za bazy svaki odg cuvat
-        # mozda ako je competitve cuvat svaki odg ako nije onda samo tacan
-        # na frontendu osigurat ako je netacan da se vrati kod i dodat loading kruzic dok se egzekujta
-        solution = Solution.objects.create(user=request.user, task=task, user_code=code)
-        solution.save()
+
+        if output.strip() == task.correct_output.strip():
+            solution = Solution.objects.create(user=request.user, task=task, user_code=code)
+            solution.save()
+            message = 'Your task is completed successfully!'
+            correct = True
+
+        else:
+            message = 'Incorrect output'
 
     context = {
-        'task': task
+        'task': task,
+        'message': message,
+        'correct': correct,
+        'course': course,
     }
     return render(request, 'solve_task.html', context)
 

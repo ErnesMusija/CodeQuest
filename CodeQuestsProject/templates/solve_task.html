@@ -15,10 +15,15 @@
         <form method="POST">
             {% csrf_token %}
             <label for="code">Write your code here:</label>
-            <textarea id="code" name="code" required></textarea>
+            <textarea id="code" name="code" required>{{ request.POST.code }}</textarea>
 
             <button type="submit">Submit</button>
         </form>
+        {{message}}
+        {% if correct %}
+        <a href="/attend_course/{{course.id}}"> Return to course</a>
+        <a href="/search_tasks"> Return to tasks</a>
+        {% endif %}
 
         <div class="output">
             <h2>Expected Output:</h2>
