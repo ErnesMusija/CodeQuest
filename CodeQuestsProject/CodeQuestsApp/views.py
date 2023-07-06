@@ -1,4 +1,5 @@
 import subprocess
+import time
 from collections import OrderedDict
 
 from django.shortcuts import render, redirect
@@ -197,6 +198,7 @@ def join_queue(request):
         match.queued = False
         match.save()
         matched = True
+        break
         # sad vjv trazimo od apija zadatak i saljemo usere u solve_task
 
     # ovdje ako ne nadjemo nista da valja
