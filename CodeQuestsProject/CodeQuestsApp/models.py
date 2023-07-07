@@ -53,6 +53,7 @@ class Course(models.Model):
     name = models.CharField(max_length=127)
     programming_language = models.CharField(max_length=50)
     added_by = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    logo = models.ImageField(blank=True, null=True, upload_to='images')
 
     def __str__(self):
         return self.name
