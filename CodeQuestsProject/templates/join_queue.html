@@ -54,11 +54,29 @@
         }
     </style>
 
-    <script>
-    setTimeout(function() {
-        window.location.href = "{% url 'solve_task' task_id=2 %}";
-    }, 2000);  // 2000 milliseconds = 2 seconds
-</script>
+     <script>
+        // za prvog usera
+
+            setInterval(function() {
+                // Poll the server every 2 seconds to check if the second user has joined
+                fetch("{% url 'check_match_status' %}")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.joined) {
+                            // Redirect to the solve_task page when the second user has joined
+                            window.location.href = "{% url 'solve_task' task_id=2 %}";
+                        }
+                    });
+            }, 1000);
+
+        // za drugog usera
+
+            {% if matched %}
+            setTimeout(function() {
+                window.location.href = "{% url 'solve_task' task_id=2 %}";
+            }, 1000);
+        {% endif %}
+    </script>
 </head>
 <body>
     <div class="container">

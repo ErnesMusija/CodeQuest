@@ -18,6 +18,7 @@ urlpatterns = [
     path('join_queue', views.join_queue, name="join_queue"),
     path('view_profile', views.view_profile, name="view_profile"),
     path('view_profile', views.view_profile, name="view_profile"),
+    path('check_match_status', views.check_match_status, name='check_match_status'),
     path('match_history', views.match_history, name="match_history"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,
                                                                            document_root=settings.STATIC_ROOT)

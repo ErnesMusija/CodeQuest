@@ -2,6 +2,7 @@ import subprocess
 import time
 from collections import OrderedDict
 
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import get_user_model
@@ -186,6 +187,23 @@ def solve_task(request, task_id):
     return render(request, 'solve_task.html', context)
 
 
+def check_match_status(request):
+    match = Match.objects.filter(first_user=request.user).last()
+    if match and match.second_user is not None:
+        data = {
+            'joined': True
+        }
+        print('True')
+    else:
+        data = {
+            'joined': False
+        }
+        print('False')
+    return JsonResponse(data)
+
+
+# koristi Incognito sa portovima
+
 def join_queue(request):
     # bira vrstu zadatka i prog jezik
     # ceka protivnika
@@ -201,13 +219,12 @@ def join_queue(request):
         break
         # sad vjv trazimo od apija zadatak i saljemo usere u solve_task
 
-    # ovdje ako ne nadjemo nista da valja
     if not matched:
         match = Match.objects.create(first_user=request.user)
         match.save()
 
     context = {
-
+        'matched': matched,
     }
     return render(request, 'join_queue.html', context)
 
