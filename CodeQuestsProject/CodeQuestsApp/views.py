@@ -121,11 +121,14 @@ def attend_course(request, course_id):
     unfinished_tasks = list(OrderedDict.fromkeys(unfinished_tasks))
     completed_tasks = list(OrderedDict.fromkeys(completed_tasks))
 
+    percentage = (len(completed_tasks)/(len(unfinished_tasks) + len(completed_tasks))) * 100
+
     context = {
         'tasks': tasks,
         'solutions': solutions,
         'completed_tasks': completed_tasks,
         'unfinished_tasks': unfinished_tasks,
+        'percentage': percentage,
     }
     return render(request, 'attend_course.html', context)
 

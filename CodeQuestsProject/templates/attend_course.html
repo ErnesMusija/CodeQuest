@@ -1,8 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+<link rel="icon" href="{% static 'images/logo.png' %}">
+
+
 </head>
 <body>
 <ul>
@@ -17,5 +22,6 @@
 {% endfor %}
 
 </ul>
+<h1>Percentage completed: {{percentage}} %</h1>
 </body>
 </html>

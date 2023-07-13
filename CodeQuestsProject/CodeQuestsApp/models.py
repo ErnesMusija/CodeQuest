@@ -62,6 +62,7 @@ class Course(models.Model):
 class UserCourse(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
 
 
 class Task(models.Model):
