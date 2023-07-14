@@ -98,6 +98,8 @@ class Solution(models.Model):
     user_code = models.CharField(max_length=1000)
     execution_time = models.IntegerField(blank=True, null=True)
     passed = models.BooleanField(default=False)
+    output = models.CharField(max_length=1000, null=True, blank=True)
+    match = models.ForeignKey('Match', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.user.username + '-' + self.task.name + '-' + str(self.id)

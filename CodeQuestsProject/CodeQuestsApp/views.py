@@ -2,6 +2,7 @@ import subprocess
 import time
 from collections import OrderedDict
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
@@ -156,6 +157,12 @@ def choose_task(request):
 
 def solve_task(request, task_id, match_id):
     m_id = match_id
+
+    try:
+        match = Match.objects.get(id=match_id)
+    except ObjectDoesNotExist:
+        match = None
+
     message = ''
     correct = False
     task = Task.objects.get(id=task_id)
@@ -173,13 +180,20 @@ def solve_task(request, task_id, match_id):
             output = str(e.output)
 
         if output.strip() == task.correct_output.strip():
-            solution = Solution.objects.create(user=request.user, task=task, user_code=code)
+            solution = Solution.objects.create(user=request.user, task=task, user_code=code, match=match, output=output)
             solution.save()
             message = 'Your task is completed successfully!'
             correct = True
+            if match_id != 0:
+                return redirect('/match_result/{}'.format(match.id))
 
         else:
             message = 'Incorrect output'
+            if match_id != 0:
+                solution = Solution.objects.create(user=request.user, task=task, user_code=code, match=match,
+                                                   output=output)
+                solution.save()
+                return redirect('/match_result/{}'.format(match.id))
 
     context = {
         'task': task,
@@ -243,10 +257,16 @@ def match_result(request, match_id):
         you = match.second_user
         opponent = match.first_user
 
+    your_solution = Solution.objects.filter(user=you, match=match).last()
+    opponent_solution = Solution.objects.filter(user=opponent, match=match).last()
+
     context = {
         'you': you,
         'opponent': opponent,
+        'your_solution': your_solution,
+        'opponent_solution': opponent_solution,
     }
+
     return render(request, 'match_result.html', context)
 
 
