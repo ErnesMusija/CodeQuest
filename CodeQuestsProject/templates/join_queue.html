@@ -66,7 +66,7 @@
                     .then(data => {
                         if (data.joined) {
                             // Redirect to the solve_task page when the second user has joined
-                            window.location.href = "{% url 'solve_task' task_id=2 %}";
+                            window.location.href = "{% url 'solve_task' task_id=2 match_id=match_id %}";
                         }
                     });
             }, 1000);
@@ -75,7 +75,7 @@
 
             {% if matched %}
             setTimeout(function() {
-                window.location.href = "{% url 'solve_task' task_id=2 %}";
+                window.location.href = "{% url 'solve_task' task_id=2 match_id=match_id %}";
             }, 1000);
         {% endif %}
     </script>

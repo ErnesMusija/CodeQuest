@@ -154,7 +154,8 @@ def choose_task(request):
     # mozda ne treba cini mi se vidicemo
 
 
-def solve_task(request, task_id):
+def solve_task(request, task_id, match_id):
+    m_id = match_id
     message = ''
     correct = False
     task = Task.objects.get(id=task_id)
@@ -166,7 +167,6 @@ def solve_task(request, task_id):
         code = request.POST['code']
         command = ['python', '-c', code]
         output = ''
-
         try:
             output = subprocess.check_output(command, stderr=subprocess.STDOUT, timeout=5, universal_newlines=True)
         except subprocess.CalledProcessError as e:
@@ -186,6 +186,7 @@ def solve_task(request, task_id):
         'message': message,
         'correct': correct,
         'course': course,
+        'm_id': m_id,
     }
     return render(request, 'solve_task.html', context)
 
@@ -204,8 +205,6 @@ def check_match_status(request):
         print('False')
     return JsonResponse(data)
 
-
-# koristi Incognito sa portovima
 
 def join_queue(request):
     # bira vrstu zadatka i prog jezik
@@ -228,8 +227,27 @@ def join_queue(request):
 
     context = {
         'matched': matched,
+        'match_id': match.id
     }
     return render(request, 'join_queue.html', context)
+
+
+def match_result(request, match_id):
+    match = Match.objects.get(id=match_id)
+    you = None
+    opponent = None
+    if match.first_user.id == request.user.id:
+        you = match.first_user
+        opponent = match.second_user
+    else:
+        you = match.second_user
+        opponent = match.first_user
+
+    context = {
+        'you': you,
+        'opponent': opponent,
+    }
+    return render(request, 'match_result.html', context)
 
 
 def view_profile(request):

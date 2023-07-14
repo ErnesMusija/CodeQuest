@@ -25,8 +25,12 @@
         {% if correct %}
         <a href="/attend_course/{{course.id}}"> Return to course</a>
         <a href="/search_tasks"> Return to tasks</a>
+        <a href="/match_result/{{match.id}}"> See the result </a>
         {% endif %}
 
+         {% if not correct %}
+        <a href="/match_result/{{m_id}}"> See the result </a>
+        {% endif %}
         <div class="output">
             <h2>Expected Output:</h2>
             <pre>{{ task.correct_output }}</pre>
